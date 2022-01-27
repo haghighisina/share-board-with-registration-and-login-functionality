@@ -1,5 +1,5 @@
 <?php /* @noinspection ALL */
-abstract class Controller{
+abstract class ControllerClass{
 
     public function __construct(protected $action, protected $request){}
 
