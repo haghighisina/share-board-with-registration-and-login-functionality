@@ -1,5 +1,5 @@
 <?php
-class Home extends ControllerClass{
+class Home extends Controller{
     protected function Index(){
         $viewModel = new HomeModel();
         $this->returnView($viewModel->Index(),TRUE);
