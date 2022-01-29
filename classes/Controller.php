@@ -1,7 +1,11 @@
 <?php /* @noinspection ALL */
 abstract class Controller{
-
-    public function __construct(protected $action, protected $request){}
+    protected $action;
+    protected $request;
+    public function __construct($action, $request){
+        $this->request = $request;
+        $this->action = $action;
+    }
 
     public function executeAction(){
        return $this->{$this->action}();

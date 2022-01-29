@@ -22,8 +22,8 @@ abstract class Model{
 
     //create function to bind the parameters
     public function bindParameters($param, $value, $type=null){
-        if ((bool)false !== is_null($type)){
-            match ($type) {
+        if (is_null($type)){
+           $type = match ($type) {
                 is_int($value) => $type = PDO::PARAM_INT,
                 is_bool($value) => $type = PDO::PARAM_BOOL,
                 is_null($value) => $type = PDO::PARAM_NULL,
@@ -45,4 +45,7 @@ abstract class Model{
         return $result;
     }
 
+    public function lastInsertId(){
+        return $this->db->lastInsertId();
+    }
 }
