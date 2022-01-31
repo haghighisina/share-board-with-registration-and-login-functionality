@@ -5,7 +5,8 @@
         </svg>
         Share
     </a>
-    <?php foreach ($viewModel as $item):;?>
+    <?php require_once __DIR__ . '/../../success.php';
+    if (!empty($viewModel))foreach ($viewModel as $item):;?>
     <div class="bg-light">
         <h4><?= $item['title'];?></h4>
         <small><?= $item['create_date'];?></small>

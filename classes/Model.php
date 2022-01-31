@@ -37,15 +37,40 @@ abstract class Model{
         $this->stmt->execute();
     }
 
-    public function resultQuery():array{
+    public function resultQuery():?array{
        $this->QueryExecute();
-        while($rows =  $this->stmt->fetchAll(PDO::FETCH_ASSOC)){
-            $result = $rows;
-        }
-        return $result;
+       $stmt = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+       if (false === $stmt){
+           return [];
+       }
+        return $stmt;
     }
 
     public function lastInsertId(){
         return $this->db->lastInsertId();
+    }
+
+    public function single(){
+        $this->QueryExecute();
+        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function userData($name){
+        $this->query("SELECT * FROM users WHERE name= :name ");
+        $stmt = $this->bindParameters(":name", $name);
+		if (false === $stmt){
+            return [];
+        }
+        $this->QueryExecute();
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+     function ifUserExist($name):bool{
+        $this->query("SELECT 1 FROM users WHERE name= :name ");
+        $stmt = $this->bindParameters(":name", $name);
+        if (false === $stmt){
+            return false;
+        }
+        $this->QueryExecute();
+        return (bool)$this->stmt->fetchColumn();
     }
 }

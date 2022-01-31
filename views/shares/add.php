@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/../../error.php';?>
 <div class="panel panel-default bg-light mt-5">
     <div class="panel-heading">
         <h5 class="panel-heading"><i>Share your Ideas</i></h5>
@@ -19,6 +20,5 @@
             <input class="btn btn-primary mt-2" name="submit" type="submit" value="Submit">
         </form>
         <a class="btn btn-danger mt-2" href="<?= ROOT_URL;?>shares">Cancel</a>
-
     </div>
 </div>
