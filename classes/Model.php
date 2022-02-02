@@ -73,4 +73,36 @@ abstract class Model{
         $this->QueryExecute();
         return (bool)$this->stmt->fetchColumn();
     }
+
+    function ifEmailExist($email):bool{
+        $this->query("SELECT 1 FROM users WHERE email= :email ");
+        $stmt = $this->bindParameters(":email", $email);
+        if (false === $stmt){
+            return false;
+        }
+        $this->QueryExecute();
+        return (bool)$this->stmt->fetchColumn();
+    }
+
+    public function getUserId(){
+        $userId = random_int(0,time());
+        if (isset($_SESSION['userId'])){
+            $userId = (int)$_SESSION['userId'];
+        }
+        if (isset($_COOKIE['userId'])){
+            $userId = (int)$_COOKIE['userId'];
+        }
+        return $userId;
+    }
+
+}
+function redirect($url){
+    $url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+    // Test if string contains the word
+    if (strpos($url, $url) !== false) {
+        if (!isset($_COOKIE['user_id']) && empty($_COOKIE['user_id'])) {
+            header("location: " . ROOT_URL);
+            exit();
+        }
+    }
 }

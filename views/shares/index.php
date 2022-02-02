@@ -1,3 +1,4 @@
+<?php redirect('shares');?>
 <div>
     <a class="btn btn-success mt-2 mb-2" href="<?= ROOT_URL; ?>shares/add">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">

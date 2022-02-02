@@ -4,6 +4,12 @@ class UserModel extends Model {
         $input = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $error = [];
         if (isset($input['submit'])) {
+            if (false !== (bool)$this->ifUserExist($input['name'])){
+                $error[] = "username already exist";
+            }
+            if (false !== (bool)$this->ifEmailExist($input['email'])){
+                $error[] = "email already exist";
+            }
             $password = password_hash($input['password'], PASSWORD_BCRYPT);
             if (isset($input['email']) && empty($input['email'])) {
                 $error[] = 'email empty';
@@ -18,10 +24,12 @@ class UserModel extends Model {
             $this->query("INSERT INTO users SET  
              name= :name,
              email= :email,
-             password= :password ");
+             password= :password,
+             user_id = :user_id");
             $this->bindParameters(":email", $input['email']);
             $this->bindParameters(":password", $password);
             $this->bindParameters(":name", $input['name']);
+            $this->bindParameters(":user_id", $this->getUserId());
             $this->QueryExecute();
             if (!empty($error)){
                 $_SESSION['error'] = $error;
@@ -41,10 +49,11 @@ class UserModel extends Model {
         //get the password from database
         if (isset($input['submit'])) {
             $userData = $this->userData($input['name']);
+
             if (isset($input['name']) && empty($input['name'])) {
                 $errors[] = "name empty";
             }
-            if (true === (bool)$input['name'] && $input['name'] !== $userData[0]['name']){
+            if (false !== (bool)$input['name'] && $input['name'] !== $userData[0]['name']){
                 $errors[]= "username not exist";
             }
             if (isset($input['email']) && empty($input['email'])) {
@@ -53,8 +62,8 @@ class UserModel extends Model {
             if (isset($input['password']) && empty($input['password'])) {
                 $errors[] = "password empty";
             }
-            if (true === (bool)$input['password'] && isset($userData[0]['password']) &&
-                false === password_verify($input['password'], $userData[0]['password'])) {
+            if (false !== (bool)$input['password'] && isset($userData[0]['password']) &&
+                true !== password_verify($input['password'], $userData[0]['password'])) {
                 $errors[] = "Password is not right";
             }
             if (!empty($errors)) {
@@ -63,6 +72,8 @@ class UserModel extends Model {
                 exit();
             }
             if (empty($errors)) {
+                $_COOKIE['user_id'] = setcookie('user_id', $userData[0]['user_id'], strtotime('+ 30 days'),'/');
+                $_COOKIE['user_data'] = setcookie('user_data', $userData[0]['name'], strtotime('+ 30 days'),'/');
                 $_SESSION['success'][] = " you have successfully logged in";
                 header("location: " . ROOT_URL);
                 exit();

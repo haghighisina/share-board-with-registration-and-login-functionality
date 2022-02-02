@@ -25,17 +25,20 @@
                     <a class="nav-link active" aria-current="page" href="<?= ROOT_URL;?>">Home</a>
                 </li>
                 <li class="nav-item">
+                    <?php if (isset($_COOKIE['user_id']) && !empty($_COOKIE['user_id'])):;?>
                     <a class="nav-link" href="<?= ROOT_URL;?>shares">Shares</a>
+                    <?php endif;?>
                 </li>
             </ul>
         </div>
     </div>
     <ul class="navbar-nav">
         <li class="nav-item">
+            <?php if (isset($_COOKIE['user_data']) && !empty($_COOKIE['user_data'])):;?>
+            <a class="nav-link" style="margin-right: 10rem;color: black"><?= "Hello " . $_COOKIE['user_data'];?></a>
+            <?php else:;?>
             <a class="nav-link" aria-current="page" href="<?= ROOT_URL;?>users/login">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="<?= ROOT_URL;?>users/register">Register</a>
+            <?php endif;?>
         </li>
     </ul>
 </nav>

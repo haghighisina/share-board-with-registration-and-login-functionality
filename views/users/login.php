@@ -20,5 +20,6 @@
             </div>
             <input class="btn btn-primary mt-2" name="submit" type="submit" value="Submit">
         </form>
+        if You dont have an account, register here <a class="btn btn-primary" href="<?= ROOT_URL;?>users/register">Register</a>
     </div>
 </div>

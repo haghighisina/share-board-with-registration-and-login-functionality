@@ -1,5 +1,4 @@
 <?php /* @noinspection ALL */
-
 class ShareModel extends Model {
     public function Index():?array{
         $this->query("SELECT * FROM share ");
@@ -20,7 +19,7 @@ class ShareModel extends Model {
             if (isset($input['link']) && empty($input['link'])) {
                 $error[] = 'link empty';
             }
-            $this->query("INSERT INTO share SET  
+            $this->query("INSERT INTO share SET
              user_id= :user_id,
              title= :title,
              body= :body,
@@ -29,7 +28,7 @@ class ShareModel extends Model {
             $this->bindParameters(":title", $input['title']);
             $this->bindParameters(":body", $input['body']);
             $this->bindParameters(":link", $input['link']);
-            $this->bindParameters(":user_id", 1);
+            $this->bindParameters(":user_id", $_COOKIE['user_id']);
             $this->QueryExecute();
             if (!empty($error)){
                 $_SESSION['error'] = $error;

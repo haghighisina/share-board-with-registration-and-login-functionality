@@ -1,4 +1,4 @@
-<?php require_once __DIR__.'/../../error.php';?>
+<?php require_once __DIR__.'/../../error.php'; redirect('add');?>
 <div class="panel panel-default bg-light mt-5">
     <div class="panel-heading">
         <h5 class="panel-heading"><i>Share your Ideas</i></h5>
