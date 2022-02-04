@@ -1,4 +1,3 @@
-<?php require_once __DIR__.'/../../error.php';?>
 <div class="panel panel-default bg-light mt-5">
     <div class="panel-heading">
         <h5 class="panel-heading"><i>Registration</i></h5>

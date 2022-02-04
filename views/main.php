@@ -35,7 +35,8 @@
     <ul class="navbar-nav">
         <li class="nav-item">
             <?php if (isset($_COOKIE['user_data']) && !empty($_COOKIE['user_data'])):;?>
-            <a class="nav-link" style="margin-right: 10rem;color: black"><?= "Hello " . $_COOKIE['user_data'];?></a>
+            <a class="nav-link" style="margin-right: 10rem;color: black"><?= $_COOKIE['user_data'];?></a>
+            <a class="nav-link" style="margin-right: 10rem;color: black" href="<?= ROOT_URL;?>users/logout">Log Out</a>
             <?php else:;?>
             <a class="nav-link" aria-current="page" href="<?= ROOT_URL;?>users/login">Login</a>
             <?php endif;?>
@@ -45,5 +46,5 @@
 </body>
 </html>
 <div class="container">
-    <?php require ($view);?>
+    <?php Message::display();require ($view);?>
 </div>
