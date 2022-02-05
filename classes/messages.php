@@ -10,12 +10,16 @@ class Message{
 
     public static function display(){
         if (isset($_SESSION['errorMsg']) && !empty($_SESSION['errorMsg'])){
-            echo '<div class="alert alert-danger">'.$_SESSION['errorMsg'].'</div>';
-            unset($_SESSION['errorMsg']);
+            foreach($_SESSION['errorMsg'] as $error) {
+                echo '<div class="alert alert-danger">' . $error . '</div>';
+                unset($_SESSION['errorMsg']);
+            }
         }
         if (isset($_SESSION['successMsg']) && !empty($_SESSION['successMsg'])){
-            echo '<div class="alert alert-success">'.$_SESSION['successMsg'].'</div>';
-            unset($_SESSION['successMsg']);
+            foreach ($_SESSION['successMsg'] as $success) {
+                echo '<div class="alert alert-success">' . $success . '</div>';
+                unset($_SESSION['successMsg']);
+            }
         }
     }
 }

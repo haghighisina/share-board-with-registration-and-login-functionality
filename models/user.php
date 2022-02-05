@@ -2,23 +2,23 @@
 class UserModel extends Model {
     public function register() {
         $input = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        $error = "";
+        $error = [];
         if (isset($input['submit'])) {
-            if (false !== (bool)$this->ifUserExist($input['name'])){
-                $error = "username already exist";
-            }
-            if (false !== (bool)$this->ifEmailExist($input['email'])){
-                $error = "email already exist";
-            }
             $password = password_hash($input['password'], PASSWORD_BCRYPT);
-            if (isset($input['email']) && empty($input['email'])) {
-                $error = 'email empty';
+            if (isset($input['password']) && empty($input['password'])) {
+                $error[] = 'password empty';
             }
             if (isset($input['name']) && empty($input['name'])) {
-                $error = 'email empty';
+                $error[] = 'name empty';
             }
-            if (isset($input['password']) && empty($input['password'])) {
-                $error = 'email empty';
+            if (isset($input['email']) && empty($input['email'])) {
+                $error[] = 'email empty';
+            }
+            if (isset($input['name']) && !empty($input['name']) && false !== (bool)$this->ifUserExist($input['name'])){
+                $error[] = "username already exist";
+            }
+            if (isset($input['email']) && !empty($input['email']) &&  false !== (bool)$this->ifEmailExist($input['email'])){
+                $error[] = "email already exist";
             }
 
             $this->query("INSERT INTO users SET  
@@ -35,8 +35,8 @@ class UserModel extends Model {
                 Message::setMsg($error, "error");
                 header("location: " . ROOT_URL . "users/register");
                 exit();
-            }elseif ($this->lastInsertId()) {
-               Message::setMsg(" you have successfully registered in","success");
+            }elseif (empty($error) && $this->lastInsertId()) {
+               Message::setMsg(["you have successfully registered in"],"success");
                 header("location: " . ROOT_URL . "users/login");
                 exit();
             }
@@ -45,26 +45,26 @@ class UserModel extends Model {
 
     public function login() {
         $input = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        $errors = "";
+        $errors = [];
         //get the password from database
         if (isset($input['submit'])) {
             $userData = $this->userData($input['name']);
 
             if (isset($input['name']) && empty($input['name'])) {
-                $errors = "name empty";
+                $errors[] = "name empty";
             }
             if (false !== (bool)$input['name'] && $input['name'] !== $userData[0]['name']){
-                $errors= "username not exist";
+                $errors[]= "username not exist";
             }
             if (isset($input['email']) && empty($input['email'])) {
-                $errors = "email empty";
+                $errors[] = "email empty";
             }
             if (isset($input['password']) && empty($input['password'])) {
-                $errors = "password empty";
+                $errors[] = "password empty";
             }
             if (false !== (bool)$input['password'] && isset($userData[0]['password']) &&
                 true !== password_verify($input['password'], $userData[0]['password'])) {
-                $errors = "Password is not right";
+                $errors[] = "Password is not right";
             }
             if (!empty($errors)) {
                 Message::setMsg($errors,"error");
@@ -74,7 +74,7 @@ class UserModel extends Model {
             if (empty($errors)) {
                 $_COOKIE['user_id'] = setcookie('user_id', $userData[0]['user_id'], strtotime('+ 30 days'),'/');
                 $_COOKIE['user_data'] = setcookie('user_data', $userData[0]['name'], strtotime('+ 30 days'),'/');
-                Message::setMsg(" you have successfully logged in","success");
+                Message::setMsg([" you have successfully logged in"],"success");
                 header("location: " . ROOT_URL);
                 exit();
             }

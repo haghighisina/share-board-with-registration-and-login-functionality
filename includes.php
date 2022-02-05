@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'/config.php';
 
-require_once __DIR__. '/classes/messages.php';
+require_once __DIR__ . '/classes/Messages.php';
 require_once __DIR__. '/classes/bootstrap.php';
 require_once __DIR__. '/classes/Controller.php';
 require_once __DIR__. '/classes/Model.php';
