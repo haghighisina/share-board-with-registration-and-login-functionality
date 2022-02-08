@@ -72,8 +72,14 @@ class UserModel extends Model {
                 exit();
             }
             if (empty($errors)) {
-                $_COOKIE['user_id'] = setcookie('user_id', $userData[0]['user_id'], strtotime('+ 30 days'),'/');
-                $_COOKIE['user_data'] = setcookie('user_data', $userData[0]['name'], strtotime('+ 30 days'),'/');
+                $user = [
+                    "name" => $userData[0]['name'],
+                    "id" => $userData[0]['id'],
+                    "userRights" => $userData[0]['userRights']
+                ];
+                $_COOKIE['user_id'] = setcookie('user_id', $user['id'], strtotime('+ 30 days'),'/');
+                $_COOKIE['user_name'] = setcookie('user_name',$user['name'], strtotime('+ 30 days'),'/');
+                $_COOKIE['userRights'] = setcookie('userRights',$user['userRights'], strtotime('+ 30 days'),'/');
                 Message::setMsg([" you have successfully logged in"],"success");
                 header("location: " . ROOT_URL);
                 exit();

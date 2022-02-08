@@ -19,6 +19,6 @@
             </div>
             <input class="btn btn-primary mt-2" name="submit" type="submit" value="Submit">
         </form>
-        <a class="btn btn-danger mt-2" href="<?= ROOT_URL;?>shares">Cancel</a>
+        <a class="btn btn-danger mt-2" href="<?= ROOT_URL; ?>shares">Cancel</a>
     </div>
 </div>

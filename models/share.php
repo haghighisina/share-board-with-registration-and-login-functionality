@@ -41,4 +41,15 @@ class ShareModel extends Model {
             }
         }
     }
+
+    public function Delete(){
+       if (isset($_POST['delete'])){
+           $id = $_POST['id'];
+           $this->query("DELETE FROM share WHERE id= $id ");
+           $this->QueryExecute();
+           Message::setMsg(["comment was successfully Delted"],"success");
+           header("location: " . ROOT_URL . "shares");
+           exit();
+       }
+    }
 }

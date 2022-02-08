@@ -6,14 +6,20 @@
         </svg>
         Share
     </a>
-    <?php if (!empty($viewModel))foreach ($viewModel as $item):;?>
+    <?php if (!empty($viewModel)): foreach ($viewModel as $item):;?>
     <div class="bg-light">
         <h4><?= $item['title'];?></h4>
         <small><?= $item['create_date'];?></small>
         <hr>
         <p><?= $item['body'];?></p>
         <br>
-        <a class="btn btn-primary btn-sm" href="<?= $item['link'];?>" target="_blank">Return to Home</a>
+        <a href="<?= $item['link'] ;?>" class="btn btn-outline-success">Go To Link</a>
+        <?php if (isset($_COOKIE['userRights']) && $_COOKIE['userRights'] === "ADMIN"):;?>
+        <form method="post" action="<?php ROOT_URL;?>shares/delete" class="mt-5">
+            <input type="hidden" value="<?= $item['id'];?>" name="id">
+			<input class="btn btn-danger" name="delete" value="Delete" type="submit">
+		</form>
+        <?php endif;?>
     </div><br>
-    <?php endforeach;?>
+    <?php endforeach;endif?>
 </div>
