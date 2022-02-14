@@ -44,8 +44,11 @@ class ShareModel extends Model {
 
     public function Delete(){
        if (isset($_POST['delete'])){
-           $id = $_POST['id'];
-           $this->query("DELETE FROM share WHERE id= $id ");
+           $this->query("DELETE FROM share WHERE id= :id ");
+           $statement = $this->bindParameters(":id", $_POST['id'], PDO::PARAM_INT);
+           if (false !== (bool)$statement && true !== $statement){
+               Message::setMsg(["Something went wrong"],"error");
+           }
            $this->QueryExecute();
            Message::setMsg(["comment was successfully Delted"],"success");
            header("location: " . ROOT_URL . "shares");
